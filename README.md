@@ -1,5 +1,7 @@
 # krenovator-tsa-project
 
+![Images](src/assets/preview.png "Preview")
+
 ## Project setup
 ```
 npm install
