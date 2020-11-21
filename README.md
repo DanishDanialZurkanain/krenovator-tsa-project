@@ -5,7 +5,12 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run Back-End Services
+```
+npm run start
+```
+
+### Run Front-End Services
 ```
 npm run serve
 ```
