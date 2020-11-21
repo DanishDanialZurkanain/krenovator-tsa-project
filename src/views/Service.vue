@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="my-3">
     <div class="container">
+      <h4 class="my-3">🩺 List of Services</h4>
       <div class="card">
         <div class="card-header">
           <div class="float-left">
@@ -129,12 +130,12 @@ export default {
       });
     },
     deleteService(id) {
-      this.$http.delete(`appointment/${id}`).then(() => {
+      this.$http.delete(`service/${id}`).then(() => {
         this.form = {
           title: "",
           description: "",
         };
-        this.getAppointments();
+        this.getServices();
       });
     },
     manageCreateService() {

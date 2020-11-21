@@ -4,7 +4,9 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Appointment from '../views/Appointment.vue'
 import Patient from '../views/Patient.vue'
+import Register from '../views/Register.vue'
 import Service from '../views/Service.vue'
+import Setting from '../views/Setting.vue'
 import Staff from '../views/Staff.vue'
 
 Vue.use(VueRouter)
@@ -39,6 +41,16 @@ const routes = [
         path: '/staff',
         name: 'Staff',
         component: Staff
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register
+    },
+    {
+        path: '/setting',
+        name: 'Setting',
+        component: Setting
     }
 ]
 

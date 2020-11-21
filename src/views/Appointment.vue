@@ -1,74 +1,120 @@
 <template>
-  <div>
+  <div class="my-3">
     <div class="container">
+      <h4 class="my-3">📅 List of Appointment</h4>
+
       <div class="card">
         <div class="card-header">
           <div class="float-left">
-            <span class="btn">Appointments</span>
+            <span class="btn">
+              <span>Appointments</span>
+            </span>
           </div>
           <div class="float-right">
             <b-button
               variant="outline-primary"
               @click="manageCreateAppointment"
             >
-              <span class="font-weight-bold">Create Appointment</span></b-button
+              <span class="font-weight-bold">Create </span></b-button
             >
           </div>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Patient</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Service</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody v-for="appointment in appointments" :key="appointment.id">
-                <tr>
-                  <span v-for="patient in patients" :key="patient.id">
-                    <td v-if="appointment.patientId == patient.id">
-                      {{ patient.fullName }}
-                    </td>
-                  </span>
-                  <td>{{ appointment.date }}</td>
-                  <td>{{ appointment.time }}</td>
-                  <span v-for="service in services" :key="service.id">
-                    <td v-if="appointment.serviceId == service.id">
-                      {{ service.title }}
-                    </td>
-                  </span>
-                  <td>
-                    <span v-if="appointment.status == 1"> Active </span>
-                    <span v-else-if="appointment.status == 0">
-                      Not Active
+          <div v-if="user.role == 0 || user.role == 1">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody
+                  v-for="appointment in appointments"
+                  :key="appointment.id"
+                >
+                  <tr>
+                    <span
+                      v-for="patient in patients"
+                      :key="patient.identityCard"
+                    >
+                      <td v-if="appointment.patientId == patient.id">
+                        {{ patient.fullName }}
+                      </td>
                     </span>
-                  </td>
-                  <td>
-                    <b-button
-                      block
-                      variant="outline-info"
-                      @click="manageUpdateAppointment(appointment)"
-                    >
-                      <b-icon icon="eye-fill" aria-hidden="true"></b-icon>
-                      View
-                    </b-button>
-                    <b-button
-                      block
-                      variant="outline-danger"
-                      @click="deleteAppointments(appointment.id)"
-                    >
-                      <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
-                      Delete
-                    </b-button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <span v-for="service in services" :key="service.id">
+                      <td v-if="appointment.serviceId == service.id">
+                        {{ service.title }}
+                      </td>
+                    </span>
+                    <td>
+                      <span v-if="appointment.status == 1"> Active </span>
+                      <span v-else-if="appointment.status == 0">
+                        Not Active
+                      </span>
+                    </td>
+                    <td>
+                      <b-button
+                        block
+                        variant="outline-info"
+                        @click="manageUpdateAppointment(appointment)"
+                      >
+                        <b-icon icon="eye-fill" aria-hidden="true"></b-icon>
+                        View
+                      </b-button>
+                      <b-button
+                        block
+                        variant="outline-danger"
+                        @click="deleteAppointments(appointment.id)"
+                      >
+                        <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+                        Delete
+                      </b-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div v-else>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody
+                  v-for="appointment in appointments"
+                  :key="appointment.id"
+                >
+                  <tr v-if="appointment.patientId == user.id">
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <span v-for="service in services" :key="service.id">
+                      <td v-if="appointment.serviceId == service.id">
+                        {{ service.title }}
+                      </td>
+                    </span>
+                    <td>
+                      <span v-if="appointment.status == 1"> Active </span>
+                      <span v-else-if="appointment.status == 0">
+                        Not Active
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -94,16 +140,20 @@
             locale="my"
           ></b-form-timepicker>
         </b-form-group>
-        <b-form-group label="Patient">
-          <b-form-select
-            required
-            v-model="form.patientId"
-            :options="patients"
-            value-field="id"
-            text-field="fullName"
-          >
-          </b-form-select>
-        </b-form-group>
+        <div>
+          <div v-if="user.role == 0 || user.role == 1">
+            <b-form-group label="Patient">
+              <b-form-select
+                required
+                v-model="form.patientId"
+                :options="patients"
+                value-field="id"
+                text-field="fullName"
+              >
+              </b-form-select>
+            </b-form-group>
+          </div>
+        </div>
         <b-form-group label="Service">
           <b-form-select
             required
@@ -129,7 +179,7 @@
             </span>
           </span>
         </b-form-group>
-        <b-form-group label="Status">
+        <b-form-group label="Status" v-if="user.role == 0 || user.role == 1">
           <b-form-select
             required
             v-model="form.status"
@@ -176,7 +226,13 @@ export default {
         { value: 1, text: "Active" },
         { value: 0, text: "Not Active" },
       ],
+      user: this.$session.get("user"),
     };
+  },
+  beforeCreate: function () {
+    if (!this.$session.get("user")) {
+      this.$router.push("/");
+    }
   },
   mounted() {
     this.getAppointments();
@@ -201,15 +257,27 @@ export default {
     },
     createAppointment() {
       this.$http.post("appointment", this.form).then(() => {
-        this.form = {
-          date: "",
-          time: "",
-          patientId: "",
-          serviceId: "",
-          status: "",
-        };
-        this.getAppointments();
-        this.$bvModal.hide("modal-appointment");
+        if (this.user.role == 0 || this.user.role == 1) {
+          this.form = {
+            date: "",
+            time: "",
+            patientId: "",
+            serviceId: "",
+            status: "",
+          };
+          this.getAppointments();
+          this.$bvModal.hide("modal-appointment");
+        } else {
+          this.form = {
+            date: this.form.date,
+            time: this.form.time,
+            serviceId: this.form.serviceId,
+            patientId: this.user.id,
+            status: "1",
+          };
+          this.getAppointments();
+          this.$bvModal.hide("modal-appointment");
+        }
       });
     },
     updateAppointments() {

@@ -5,6 +5,7 @@ var router = express.Router();
 router.get('/', patientController.getPatients);
 router.get('/:id', patientController.findPatient);
 router.post('/', patientController.createPatient);
+router.post('/authenticate', patientController.authenticate);
 router.patch('/:id', patientController.updatePatient);
 router.delete('/:id', patientController.deletePatient);
 

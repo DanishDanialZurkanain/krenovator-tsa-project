@@ -1,16 +1,28 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/appointment">Appointment</router-link> |
-      <router-link to="/service">Service</router-link> |
-      <router-link to="/staff">Staff</router-link> |
-      <router-link to="/patient">Patient</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <div>
+    <b-container>
+      <b-row>
+        <b-col sm="2">
+          <navigation></navigation>
+        </b-col>
+        <b-col sm="10">
+          <router-view />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
+
+<script>
+import Navigation from "./components/NavigationBar.vue";
+
+export default {
+  name: "App",
+  components: {
+    Navigation,
+  },
+};
+</script>
 
 <style>
 #app {

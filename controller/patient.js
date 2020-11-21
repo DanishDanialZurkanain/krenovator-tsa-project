@@ -1,7 +1,27 @@
 const app = require('../app');
-var model = require('../models');
+const model = require('../models');
+
+const bcrypt = require('bcrypt');
 
 const patient = {
+    authenticate: async (req, res) => {
+        let patient = await model.patient.findOne({
+            where: {
+                identityCard: req.body.identityCard
+            }
+        });
+
+        if (!patient) {
+            return res.status(400).send("Cannot Find Patient")
+        }
+        try {
+            if (await bcrypt.compare(req.body.password, patient.password)) {
+                res.json(patient)
+            }
+        } catch {
+            res.status(500).send();
+        }
+    },
     getPatients: async (req, res) => {
         let patients = [];
 
@@ -32,12 +52,14 @@ const patient = {
         let patient = {};
 
         try {
+            let hashedPassword = await bcrypt.hash(req.body.password, 10)
+
             patient = await model.patient.create({
                 email: req.body.email,
                 fullName: req.body.fullName,
                 identityCard: req.body.identityCard,
                 role: req.body.role,
-                password: req.body.password,
+                password: hashedPassword,
                 phoneNumber: req.body.phoneNumber
             })
         } catch (e) {

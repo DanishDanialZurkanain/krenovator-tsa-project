@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <div class="my-3">
     <div class="container">
+      <h4 class="my-3">🙎‍♂️ List of Patient</h4>
       <div class="card">
         <div class="card-header">
           <div class="float-left">
-            <span class="btn">Patient</span>
+            <span class="btn">
+              <span>Patients</span>
+            </span>
           </div>
           <div class="float-right">
             <b-button variant="outline-primary" @click="manageCreatePatient">
@@ -81,7 +84,7 @@
             placeholder="Identity Card Number"
           />
         </b-form-group>
-        <b-form-group label="Password">
+        <b-form-group label="Password" v-if="!form.id">
           <b-form-input
             required
             v-model="form.password"
@@ -163,7 +166,6 @@ export default {
           email: "",
           fullName: "",
           identityCard: "",
-          password: "",
           phoneNumber: "",
         };
         this.getPatients();
@@ -176,7 +178,6 @@ export default {
           email: "",
           fullName: "",
           identityCard: "",
-          password: "",
           phoneNumber: "",
         };
         this.getPatients();
@@ -191,7 +192,6 @@ export default {
         email: "",
         fullName: "",
         identityCard: "",
-        password: "",
         phoneNumber: "",
       };
       this.$bvModal.hide("modal-patient");

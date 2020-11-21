@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container">
+      <h4 class="my-3">👨‍⚕️ List of Staff</h4>
       <div class="card">
         <div class="card-header">
           <div class="float-left">
@@ -67,6 +68,13 @@
             placeholder="Full Name"
           />
         </b-form-group>
+        <b-form-group label="Identity Card">
+          <b-form-input
+            required
+            v-model="form.identityCard"
+            placeholder="Identity Card"
+          />
+        </b-form-group>
         <b-form-group label="Email">
           <b-form-input
             required
@@ -75,7 +83,7 @@
             placeholder="Email"
           />
         </b-form-group>
-        <b-form-group label="Password">
+        <b-form-group v-if="!form.id" label="Password">
           <b-form-input
             required
             v-model="form.password"
@@ -133,6 +141,7 @@ export default {
       form: {
         email: "",
         fullName: "",
+        identityCard: "",
         role: "",
         password: "",
         phoneNumber: "",
@@ -153,6 +162,7 @@ export default {
         this.form = {
           email: "",
           fullName: "",
+          identityCard: "",
           role: "",
           password: "",
           phoneNumber: "",
@@ -169,6 +179,7 @@ export default {
         this.form = {
           email: "",
           fullName: "",
+          identityCard: "",
           role: "",
           password: "",
           phoneNumber: "",
@@ -182,6 +193,7 @@ export default {
         this.form = {
           email: "",
           fullName: "",
+          identityCard: "",
           role: "",
           password: "",
           phoneNumber: "",
@@ -197,6 +209,7 @@ export default {
       this.form = {
         email: "",
         fullName: "",
+        identityCard: "",
         role: "",
         password: "",
         phoneNumber: "",

@@ -1,7 +1,27 @@
 const app = require('../app');
-var model = require('../models');
+const model = require('../models');
+
+const bcrypt = require('bcrypt');
 
 const staff = {
+    authenticate: async (req, res) => {
+        let staff = await model.staff.findOne({
+            where: {
+                identityCard: req.body.identityCard
+            }
+        });
+
+        if (!staff) {
+            return res.status(400).send("Cannot Find Staff")
+        }
+        try {
+            if (await bcrypt.compare(req.body.password, staff.password)) {
+                res.json(staff)
+            }
+        } catch {
+            res.status(500).send();
+        }
+    },
     getStaffs: async (req, res) => {
         let staffs = [];
 
@@ -32,11 +52,14 @@ const staff = {
         let staff = {};
 
         try {
+            let hashedPassword = await bcrypt.hash(req.body.password, 10)
+
             staff = await model.staff.create({
                 email: req.body.email,
                 fullName: req.body.fullName,
+                identityCard: req.body.identityCard,
                 role: req.body.role,
-                password: req.body.password,
+                password: hashedPassword,
                 phoneNumber: req.body.phoneNumber
             })
         } catch (e) {
